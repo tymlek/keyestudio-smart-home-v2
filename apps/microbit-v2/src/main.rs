@@ -30,6 +30,7 @@ async fn main(_spawner: embassy_executor::Spawner) {
             }
             Err(_) => {
                 warn!("Error waiting for motion");
+                Timer::after(Duration::from_millis(100)).await; // Small delay before retrying.
                 continue;
             }
         }
@@ -41,6 +42,7 @@ async fn main(_spawner: embassy_executor::Spawner) {
             }
             Err(_) => {
                 warn!("Error waiting for no motion");
+                Timer::after(Duration::from_millis(100)).await; // Small delay before retrying.
             }
         }
     }
