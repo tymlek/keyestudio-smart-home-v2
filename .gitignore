@@ -1,0 +1,14 @@
+# Rust build artefacts
+target/
+**/target/
+
+# Python
+__pycache__/
+*.pyc
+
+# Development environment
+.vscode/
+.idea/
+
+# Operating system
+.DS_Store

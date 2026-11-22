@@ -1,0 +1,9 @@
+[package]
+name = "keyestudio-smart-home-v2"
+version = "0.1.0"
+edition = "2021"
+description = "Portable micro:bit Smart Home V2 GPIO drivers and control logic"
+license = "MIT"
+
+[dependencies]
+embedded-hal = "1.0"
