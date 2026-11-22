@@ -1,0 +1,14 @@
+[workspace]
+resolver = "2"
+
+members = [
+    "crates/smart-home",
+    "apps/microbit-v2",
+]
+
+default-members = [
+    "crates/smart-home",
+]
+
+[profile.release]
+debug = 2
