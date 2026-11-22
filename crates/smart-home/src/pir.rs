@@ -22,36 +22,26 @@ impl<P> Pir<P> {
 
 // Available when P supports synchronous GPIO reads.
 impl<P: InputPin> Pir<P> {
-    pub fn motion_detected(
-        &mut self,
-    ) -> Result<bool, P::Error> {
+    pub fn motion_detected(&mut self) -> Result<bool, P::Error> {
         self.pin.is_high()
     }
 }
 
 // Available when P supports asynchronous GPIO waiting.
 impl<P: Wait> Pir<P> {
-    pub async fn wait_for_motion(
-        &mut self,
-    ) -> Result<(), P::Error> {
+    pub async fn wait_for_motion(&mut self) -> Result<(), P::Error> {
         self.pin.wait_for_high().await
     }
 
-    pub async fn wait_for_no_motion(
-        &mut self,
-    ) -> Result<(), P::Error> {
+    pub async fn wait_for_no_motion(&mut self) -> Result<(), P::Error> {
         self.pin.wait_for_low().await
     }
 
-    pub async fn wait_for_motion_edge(
-        &mut self,
-    ) -> Result<(), P::Error> {
+    pub async fn wait_for_motion_edge(&mut self) -> Result<(), P::Error> {
         self.pin.wait_for_rising_edge().await
     }
 
-    pub async fn wait_for_no_motion_edge(
-        &mut self,
-    ) -> Result<(), P::Error> {
+    pub async fn wait_for_no_motion_edge(&mut self) -> Result<(), P::Error> {
         self.pin.wait_for_falling_edge().await
     }
 }

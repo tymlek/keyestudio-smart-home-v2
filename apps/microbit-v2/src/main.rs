@@ -1,8 +1,8 @@
-//! Smart Home V2 - PIR monitoring example for the micro:bit V2
-//! Use `DEFMT_LOG=info cargo run --release` to run it
-
 #![no_std]
 #![no_main]
+
+//! Smart Home V2 - PIR monitoring example for the micro:bit V2
+//! Use `DEFMT_LOG=info cargo run --release` to run it
 
 use defmt::{info, warn};
 
