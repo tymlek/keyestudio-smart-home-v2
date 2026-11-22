@@ -1,0 +1,19 @@
+[package]
+name = "smart-home-firmware"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+keyestudio-smart-home-v2 = { path = "../rust" }
+embassy-nrf = { version = "0.11.0", features = ["nrf52833", "time-driver-rtc1", "gpiote", "defmt"] }
+embassy-executor = { version = "0.10.0", features = ["platform-cortex-m", "executor-thread", "defmt"] }
+embassy-time = { version = "0.5.1", features = ["defmt"] }
+defmt = "1.0.1"
+defmt-rtt = "1.0.0"
+panic-probe = { version = "1.0.0", features = ["print-defmt"] }
+cortex-m = { version = "0.7", features = ["critical-section-single-core"] }
+cortex-m-rt = "0.7"
+
+[profile.release]
+debug = 2
