@@ -5,9 +5,11 @@
 #![no_main]
 
 use defmt::{info, warn};
+
 use embassy_nrf::gpio::{Input, Pull};
 use embassy_time::{Duration, Instant, Timer};
-use keyestudio_smart_home_v2::Pir;
+
+use keyestudio_smart_home_v2::AsyncPir;
 
 use {defmt_rtt as _, panic_probe as _};
 
@@ -16,27 +18,30 @@ use {defmt_rtt as _, panic_probe as _};
 async fn main(_spawner: embassy_executor::Spawner) {
     let peripherals = embassy_nrf::init(Default::default());
     let sensor_pin = Input::new(peripherals.P0_13, Pull::None);
-    let mut pir = Pir::new(sensor_pin);
-    let mut previous: Option<bool> = None;
+    let mut pir = AsyncPir::new(sensor_pin);
 
     info!("Smart Home V2 - PIR monitoring started");
 
     loop {
-        match pir.motion_detected() {
-            Ok(current) => {
-                if previous != Some(current) {
-                    let timestamp = Instant::now().as_millis();
-
-                    if current {
-                        info!("[{} ms] Motion detected", timestamp);
-                    } else {
-                        info!("[{} ms] No motion", timestamp);
-                    }
-                    previous = Some(current);
-                }
+        // Suspend until the sensor reports motion.
+        match pir.wait_for_motion().await {
+            Ok(()) => {
+                info!("[{} ms] Motion detected", Instant::now().as_millis());
             }
-            Err(_) => warn!("PIR GPIO read failed"),
+            Err(_) => {
+                warn!("Error waiting for motion");
+                continue;
+            }
         }
-        Timer::after(Duration::from_millis(20)).await;
+
+        // Suspend until the sensor stops reporting motion.
+        match pir.wait_for_no_motion().await {
+            Ok(()) => {
+                info!("[{} ms] No motion", Instant::now().as_millis());
+            }
+            Err(_) => {
+                warn!("Error waiting for no motion");
+            }
+        }
     }
 }

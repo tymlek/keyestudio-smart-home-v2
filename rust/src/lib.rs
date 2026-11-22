@@ -5,6 +5,10 @@
 //! and temperature-based fan control. It intentionally does not claim
 //! support for the LCD, DHT11, ultrasonic sensor or RGB LEDs yet.
 
+pub mod async_pir;
+
+pub use async_pir::AsyncPir;
+
 use embedded_hal::digital::{InputPin, OutputPin};
 
 /// KS6018 PIR module. HIGH indicates motion.
