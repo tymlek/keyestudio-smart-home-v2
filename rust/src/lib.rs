@@ -5,21 +5,11 @@
 //! and temperature-based fan control. It intentionally does not claim
 //! support for the LCD, DHT11, ultrasonic sensor or RGB LEDs yet.
 
-pub mod async_pir;
+pub mod pir;
 
-pub use async_pir::AsyncPir;
+pub use pir::Pir;
 
-use embedded_hal::digital::{InputPin, OutputPin};
-
-/// KS6018 PIR module. HIGH indicates motion.
-pub struct Pir<P> { pin: P }
-impl<P: InputPin> Pir<P> {
-    pub fn new(pin: P) -> Self { Self { pin } }
-    pub fn motion_detected(&mut self) -> Result<bool, P::Error> {
-        self.pin.is_high()
-    }
-    pub fn release(self) -> P { self.pin }
-}
+use embedded_hal::digital::OutputPin;
 
 /// KS6038 130 motor control with separate IN+ and IN- pins.
 /// Supply the motor through the Keyestudio motor driver, not directly

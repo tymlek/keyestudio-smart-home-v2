@@ -9,7 +9,7 @@ use defmt::{info, warn};
 use embassy_nrf::gpio::{Input, Pull};
 use embassy_time::{Duration, Instant, Timer};
 
-use keyestudio_smart_home_v2::AsyncPir;
+use keyestudio_smart_home_v2::Pir;
 
 use {defmt_rtt as _, panic_probe as _};
 
@@ -18,7 +18,7 @@ use {defmt_rtt as _, panic_probe as _};
 async fn main(_spawner: embassy_executor::Spawner) {
     let peripherals = embassy_nrf::init(Default::default());
     let sensor_pin = Input::new(peripherals.P0_13, Pull::None);
-    let mut pir = AsyncPir::new(sensor_pin);
+    let mut pir = Pir::new(sensor_pin);
 
     info!("Smart Home V2 - PIR monitoring started");
 
